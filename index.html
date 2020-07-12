@@ -1,0 +1,178 @@
+﻿
+  <html>
+  <head>
+      <style>
+    /*
+	Max width before this PARTICULAR table gets nasty. This query will take effect for any screen smaller than 760px and also iPads specifically.
+	*/
+	@media
+	  only screen 
+    and (max-width: 760px), (min-device-width: 768px) 
+    and (max-device-width: 1024px)  {
+
+        table tr {
+            border-bottom: 0;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        table td {
+            border: 1px solid;
+            margin: 0 -1px -1px 0; 
+            position: relative;
+            width: 50%;
+        }
+
+		/* Force table to not be like tables anymore */
+		table, thead, tbody, th, td, tr {
+			display: block;
+		}
+
+		/* Hide table headers (but not display: none;, for accessibility) */
+		thead tr {
+			position: absolute;
+			top: -9999px;
+			left: -9999px; 
+		}
+
+        tr {
+        margin: 0 0 1rem 0;
+        }
+        
+        tr:nth-child(odd) {
+        background: #cccccc;
+        }
+    
+		td {
+			/* Behave  like a "row" */
+			border: none;
+			border-bottom: 1px solid #eeeeee;
+			position: relative;
+			padding-left: 50%;
+		}
+
+		td:before {
+			/* Now like a table header */
+			position: absolute;
+			/* Top/left values mimic padding */
+			top: 0;
+			left: 2px;
+			width: 45%;
+			padding-right: 2px;
+			white-space: nowrap;
+ 
+		}
+        td:before {
+  content: attr(data-title);
+}
+		/*
+		Label the data
+    You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+		 
+		td:nth-of-type(1):before { content: "Type of Food"; }
+		td:nth-of-type(2):before { content: "Calories"; }
+		td:nth-of-type(3):before { content: "Tasty Factor"; }
+       */
+	}
+</style>
+      <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+      <script>
+      $( document ).ready(function() { 
+        
+        $( '.tablemob' ).each(function( index ) { 
+            if( $(this).find( "tr" ).length > 0 ){  
+              var table = $(this);
+              $(this).find('tbody').find( "tr" ).each(function( index ) { 
+                
+                $( this ).find('td').each(function( index ) { 
+                    idx = 1;
+                    var txtdata = table.find( "th" ).eq(index).text() ; 
+                    $(this).get(0).setAttribute("data-title", txtdata)
+                });
+              });
+            }
+          });
+/*
+        if( $('table thead').find( "th" ).length > 0 ){
+            styleTableStr = '';
+            styleTableStr = styleTableStr + '<style type="text/css">';
+            styleTableStr = styleTableStr + '@media';
+            styleTableStr = styleTableStr + 'only screen ';
+            styleTableStr = styleTableStr + 'and (max-width: 760px), (min-device-width: 768px) ';
+            styleTableStr = styleTableStr + 'and (max-device-width: 1024px)  {';
+            idx = 1;
+            $('table thead').find( "th" ).each(function( index ) { 
+                styleTableStr = styleTableStr + 'td:nth-of-type(' + idx++ + '):before { content: "' + $( this ).text() + '"; } ';
+            });
+            styleTableStr = styleTableStr + '}</style>';
+        $(styleTableStr).appendTo("head"); 
+
+
+        }*/
+      });
+    
+      </script>
+  </head>
+  <body>
+      
+<h2>Responsive Tables #2: Flexbox</h2>
+
+
+
+<table style="width: 100%;" id="t1" class="tablemob">
+    <thead>
+      <tr>
+        <th>Type of Food</th>
+        <th>Calories</th>
+        <th>Tasty Factor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-title=""> Slice of Pizza</td>
+        <td data-title=" "> 450</td>
+        <td data-title=" "> 95%</td>
+      </tr>
+      <tr>
+        <td data-title="">  Pizza</td>
+        <td data-title=" "> 4500</td>
+        <td data-title=" "> 100%</td>
+      </tr>
+      <tr>
+        <td data-title="Type of Food"> Apple</td>
+        <td data-title="Calories"> 50</td>
+        <td data-title="Tasty Factor"> 5%</td>
+      </tr>
+    </tbody>
+  </table>
+  
+<table style="width: 100%;" id="t1" class="">
+  <thead>
+    <tr>
+      <th>Type of Food</th>
+      <th>Calories</th>
+      <th>Tasty Factor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td data-title=""> Slice of Pizza</td>
+      <td data-title=" "> 450</td>
+      <td data-title=" "> 95%</td>
+    </tr>
+    <tr>
+      <td data-title="">  Pizza</td>
+      <td data-title=" "> 4500</td>
+      <td data-title=" "> 100%</td>
+    </tr>
+    <tr>
+      <td data-title="Type of Food"> Apple</td>
+      <td data-title="Calories"> 50</td>
+      <td data-title="Tasty Factor"> 5%</td>
+    </tr>
+  </tbody>
+</table>
+
+  </body>
+  </html>
